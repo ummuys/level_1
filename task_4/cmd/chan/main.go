@@ -1,7 +1,7 @@
 package main
 
 import (
-	"context"
+	"os"
 	"os/signal"
 	"sync"
 	"syscall"
@@ -13,16 +13,20 @@ func SomeFunc(done <-chan struct{}, wg *sync.WaitGroup) {
 }
 
 func main() {
-	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	sCh := make(chan os.Signal)
+	signal.Notify(sCh, syscall.SIGINT)
+
 	done := make(chan struct{})
 	wg := sync.WaitGroup{}
-	defer cancel()
+
+	go func() {
+		<-sCh
+		close(done)
+	}()
+
 	for i := 0; i < 5; i++ {
 		wg.Add(1)
 		go SomeFunc(done, &wg)
 	}
-
-	<-ctx.Done()
-	close(done)
 	wg.Wait()
 }

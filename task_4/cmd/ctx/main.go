@@ -13,7 +13,7 @@ func SomeFunc(ctx context.Context, wg *sync.WaitGroup) {
 }
 
 func main() {
-	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT)
 	wg := sync.WaitGroup{}
 	defer cancel()
 	for i := 0; i < 5; i++ {
