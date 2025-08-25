@@ -9,7 +9,7 @@ package main // <-- comm: нужно указать главную точку в
 
 func createHugeString(len int) string {
 
-	// string -> это массив рун
+	// string -> это неизменяемый срез байтов
 	return string(make([]byte, len))
 }
 
@@ -26,3 +26,6 @@ func someFunc() string {
 func main() {
 	someFunc()
 }
+
+//Вопрос: что происходит с переменной justString?
+//в JustString передается указатель до 100 элемента
