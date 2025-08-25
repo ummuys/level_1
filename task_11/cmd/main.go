@@ -25,6 +25,7 @@ func SameNums(arr1, arr2 []int) []int {
 		res = append(res, key)
 	}
 
+	// Легче тестировать
 	sort.Ints(res)
 
 	return res
