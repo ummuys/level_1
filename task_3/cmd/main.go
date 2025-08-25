@@ -9,7 +9,7 @@ import (
 	"syscall"
 )
 
-func Worker(wg *sync.WaitGroup, out <-chan string, id int) {
+func worker(wg *sync.WaitGroup, out <-chan string, id int) {
 	defer wg.Done()
 	for d := range out {
 		fmt.Printf("Worker #%d received: %s\n", id, d)
@@ -28,7 +28,7 @@ func main() {
 	wg := sync.WaitGroup{}
 	for i := 0; i < *cWorkers; i++ {
 		wg.Add(1)
-		go Worker(&wg, info, i)
+		go worker(&wg, info, i)
 	}
 
 	for {

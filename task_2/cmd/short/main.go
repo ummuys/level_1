@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-func ArrSqrt(arr []int) []int {
+func arrSqrt(arr []int) []int {
 	wg := sync.WaitGroup{}
 	res := make([]int, len(arr)) // Для предсказуемости, но можно мутировать и исходный массив
 	for i, num := range arr {
@@ -20,5 +20,5 @@ func ArrSqrt(arr []int) []int {
 }
 
 func main() {
-	fmt.Println(ArrSqrt([]int{2, 4, 6, 8, 10}))
+	fmt.Println(arrSqrt([]int{2, 4, 6, 8, 10}))
 }
