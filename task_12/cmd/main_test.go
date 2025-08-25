@@ -8,15 +8,16 @@ import (
 
 func TestUniqueWord(t *testing.T) {
 	tests := []struct {
+		testNum  int
 		words    []string
 		expected []string
 	}{
-		{[]string{"cat", "cat", "dog", "cat", "tree"}, []string{"cat", "dog", "tree"}},
-		{[]string{"a", "b", "c", "a", "b"}, []string{"a", "b", "c"}},
-		{[]string{"one"}, []string{"one"}},
-		{[]string{}, []string{}},
-		{[]string{"x", "x", "x", "x"}, []string{"x"}},
-		{[]string{"go", "java", "python", "go"}, []string{"go", "java", "python"}},
+		{1, []string{"cat", "cat", "dog", "cat", "tree"}, []string{"cat", "dog", "tree"}},
+		{2, []string{"a", "b", "c", "a", "b"}, []string{"a", "b", "c"}},
+		{3, []string{"one"}, []string{"one"}},
+		{4, []string{}, []string{}},
+		{5, []string{"x", "x", "x", "x"}, []string{"x"}},
+		{6, []string{"go", "java", "python", "go"}, []string{"go", "java", "python"}},
 	}
 
 	wg := sync.WaitGroup{}
@@ -25,9 +26,9 @@ func TestUniqueWord(t *testing.T) {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			res := UniqueWord(tc.words)
+			res := uniqueWord(tc.words)
 			if !reflect.DeepEqual(res, tc.expected) {
-				t.Errorf("arrs not equal: res %v, want %v", res, tc.expected)
+				t.Errorf("testNum = %d: res %v, want %v", tc.testNum, res, tc.expected)
 			}
 		}()
 	}

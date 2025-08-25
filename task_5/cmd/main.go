@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func Reader(wg *sync.WaitGroup, out <-chan struct{}) {
+func reader(wg *sync.WaitGroup, out <-chan struct{}) {
 	defer wg.Done()
 
 	for range out {
@@ -15,7 +15,7 @@ func Reader(wg *sync.WaitGroup, out <-chan struct{}) {
 
 }
 
-func Writer(wg *sync.WaitGroup, in chan<- struct{}, seconds time.Duration) {
+func writer(wg *sync.WaitGroup, in chan<- struct{}, seconds time.Duration) {
 	defer wg.Done()
 	timer := time.After(time.Second * seconds)
 
@@ -36,10 +36,10 @@ func main() {
 	ch := make(chan struct{})
 
 	wg.Add(1)
-	go Reader(&wg, ch)
+	go reader(&wg, ch)
 
 	wg.Add(1)
-	go Writer(&wg, ch, 5)
+	go writer(&wg, ch, 5)
 
 	wg.Wait()
 }

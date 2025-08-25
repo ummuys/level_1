@@ -17,7 +17,7 @@ func TestGroupTemp(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		res := SetBit(tc.num, tc.pos, tc.bit)
+		res := setBit(tc.num, tc.pos, tc.bit)
 		if res != tc.expected {
 			t.Errorf("SetBit(%d, %d, %t) = %d, want %d",
 				tc.num, tc.pos, tc.bit, res, tc.expected)

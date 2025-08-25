@@ -7,7 +7,7 @@ import (
 	"syscall"
 )
 
-func SomeFunc(ctx context.Context, wg *sync.WaitGroup) {
+func someFunc(ctx context.Context, wg *sync.WaitGroup) {
 	defer wg.Done()
 	<-ctx.Done()
 }
@@ -18,7 +18,7 @@ func main() {
 	defer cancel()
 	for i := 0; i < 5; i++ {
 		wg.Add(1)
-		go SomeFunc(ctx, &wg)
+		go someFunc(ctx, &wg)
 	}
 	wg.Wait()
 }

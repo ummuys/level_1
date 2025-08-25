@@ -7,13 +7,13 @@ import (
 	"syscall"
 )
 
-func SomeFunc(done <-chan struct{}, wg *sync.WaitGroup) {
+func someFunc(done <-chan struct{}, wg *sync.WaitGroup) {
 	defer wg.Done()
 	<-done
 }
 
 func main() {
-	sCh := make(chan os.Signal)
+	sCh := make(chan os.Signal, 1)
 	signal.Notify(sCh, syscall.SIGINT)
 
 	done := make(chan struct{})
@@ -26,7 +26,7 @@ func main() {
 
 	for i := 0; i < 5; i++ {
 		wg.Add(1)
-		go SomeFunc(done, &wg)
+		go someFunc(done, &wg)
 	}
 	wg.Wait()
 }

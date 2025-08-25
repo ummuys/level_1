@@ -6,18 +6,18 @@ import (
 	"sync"
 )
 
-type MutexMap struct {
+type mutexMap struct {
 	mutex sync.Mutex
 	info  map[string]string
 }
 
-func NewMutexMap() *MutexMap {
-	return &MutexMap{
+func newMutexMap() *mutexMap {
+	return &mutexMap{
 		info: make(map[string]string),
 	}
 }
 
-func (m *MutexMap) Set(key, value string) {
+func (m *mutexMap) Set(key, value string) {
 	m.mutex.Lock()
 	defer m.mutex.Unlock()
 
@@ -25,7 +25,7 @@ func (m *MutexMap) Set(key, value string) {
 }
 
 func main() {
-	m := NewMutexMap()
+	m := newMutexMap()
 	wg := sync.WaitGroup{}
 
 	for i := 0; i < 100; i++ {

@@ -5,20 +5,20 @@ import (
 	"sync"
 )
 
-type SqrtNum struct {
+type sqrtNum struct {
 	num, pos int
 }
 
-func worker(wg *sync.WaitGroup, in <-chan SqrtNum, out chan<- SqrtNum) {
+func worker(wg *sync.WaitGroup, in <-chan sqrtNum, out chan<- sqrtNum) {
 	defer wg.Done()
 	for s := range in {
-		out <- SqrtNum{s.num * s.num, s.pos}
+		out <- sqrtNum{s.num * s.num, s.pos}
 	}
 }
 
-func arrSqrt(arr []int, cWorkers int) []int {
-	in := make(chan SqrtNum)
-	out := make(chan SqrtNum)
+func arrsqrt(arr []int, cWorkers int) []int {
+	in := make(chan sqrtNum)
+	out := make(chan sqrtNum)
 	wg := sync.WaitGroup{}
 	res := make([]int, len(arr)) // Для предсказуемости, но можно мутировать и исходный массив
 
@@ -30,7 +30,7 @@ func arrSqrt(arr []int, cWorkers int) []int {
 	// Нужно запустить в рутине, т.к без нее схватим deadlock: зависним в Worker в ожидании close(in)
 	go func() {
 		for i, num := range arr {
-			in <- SqrtNum{num, i}
+			in <- sqrtNum{num, i}
 		}
 		close(in)
 	}()
@@ -49,5 +49,5 @@ func arrSqrt(arr []int, cWorkers int) []int {
 }
 
 func main() {
-	fmt.Println(arrSqrt([]int{2, 4, 6, 8, 10}, 3))
+	fmt.Println(arrsqrt([]int{2, 4, 6, 8, 10}, 3))
 }

@@ -9,7 +9,7 @@ import (
 )
 
 // 1
-func ExitCicle(wg *sync.WaitGroup) {
+func exitCicle(wg *sync.WaitGroup) {
 	defer wg.Done()
 	fmt.Println("Cicle gorutine start")
 	for i := 0; i < 5; i++ {
@@ -19,7 +19,7 @@ func ExitCicle(wg *sync.WaitGroup) {
 }
 
 // 2
-func ExitDoneChan(wg *sync.WaitGroup, exit <-chan struct{}) {
+func exitDoneChan(wg *sync.WaitGroup, exit <-chan struct{}) {
 	defer wg.Done()
 	fmt.Println("Done chan gorutine start")
 	for {
@@ -34,7 +34,7 @@ func ExitDoneChan(wg *sync.WaitGroup, exit <-chan struct{}) {
 }
 
 // 3
-func ExitCloseChan(wg *sync.WaitGroup, ch <-chan struct{}) {
+func exitCloseChan(wg *sync.WaitGroup, ch <-chan struct{}) {
 	defer wg.Done()
 	fmt.Println("Close chan gorutine start")
 	for range ch {
@@ -43,7 +43,7 @@ func ExitCloseChan(wg *sync.WaitGroup, ch <-chan struct{}) {
 }
 
 // 4
-func ExitCtx(ctx context.Context, wg *sync.WaitGroup) {
+func exitCtx(ctx context.Context, wg *sync.WaitGroup) {
 	defer wg.Done()
 	fmt.Println("Ctx gorutine start")
 	for {
@@ -58,7 +58,7 @@ func ExitCtx(ctx context.Context, wg *sync.WaitGroup) {
 }
 
 // 5
-func ExitTime(wg *sync.WaitGroup) {
+func exitTime(wg *sync.WaitGroup) {
 	defer wg.Done()
 	fmt.Println("Time gorutine start")
 	timer := time.After(time.Second * 2)
@@ -74,7 +74,7 @@ func ExitTime(wg *sync.WaitGroup) {
 }
 
 // 6
-func ExitRuntime(wg *sync.WaitGroup) {
+func exitRuntime(wg *sync.WaitGroup) {
 	defer wg.Done()
 	fmt.Println("Runtime gorutine start")
 	<-time.After(2 * time.Second)
@@ -83,7 +83,7 @@ func ExitRuntime(wg *sync.WaitGroup) {
 }
 
 // 7
-func ExitPanic(wg *sync.WaitGroup) {
+func exitPanic(wg *sync.WaitGroup) {
 	defer wg.Done()
 	fmt.Println("Panic gorutine start")
 	defer func() {
@@ -99,37 +99,37 @@ func main() {
 	wg := sync.WaitGroup{}
 	//1
 	wg.Add(1)
-	go ExitCicle(&wg)
+	go exitCicle(&wg)
 
 	//2
 	done := make(chan struct{})
 	wg.Add(1)
-	go ExitDoneChan(&wg, done)
+	go exitDoneChan(&wg, done)
 	done <- struct{}{}
 
 	//3
 	ch := make(chan struct{})
 	wg.Add(1)
-	go ExitCloseChan(&wg, ch)
+	go exitCloseChan(&wg, ch)
 	close(ch)
 
 	//4
 	ctx, cancel := context.WithCancel(context.Background())
 	wg.Add(1)
-	go ExitCtx(ctx, &wg)
+	go exitCtx(ctx, &wg)
 	cancel()
 
 	//5
 	wg.Add(1)
-	go ExitTime(&wg)
+	go exitTime(&wg)
 
 	//6
 	wg.Add(1)
-	go ExitRuntime(&wg)
+	go exitRuntime(&wg)
 
 	//7
 	wg.Add(1)
-	go ExitPanic(&wg)
+	go exitPanic(&wg)
 
 	wg.Wait()
 }

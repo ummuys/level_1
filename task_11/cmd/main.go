@@ -5,7 +5,7 @@ import (
 	"sort"
 )
 
-func SameNums(arr1, arr2 []int) []int {
+func sameNums(arr1, arr2 []int) []int {
 
 	map1 := make(map[int]struct{})
 	sNums := make(map[int]struct{})
@@ -34,5 +34,5 @@ func SameNums(arr1, arr2 []int) []int {
 func main() {
 	arr1 := []int{1, 2, 3}
 	arr2 := []int{2, 3, 4}
-	fmt.Println(SameNums(arr1, arr2))
+	fmt.Println(sameNums(arr1, arr2))
 }

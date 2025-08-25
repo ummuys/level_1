@@ -5,7 +5,7 @@ import (
 	"sort"
 )
 
-func UniqueWord(words []string) []string {
+func uniqueWord(words []string) []string {
 	uw := make(map[string]struct{})
 	for _, w := range words {
 		if _, ok := uw[w]; !ok {
@@ -24,5 +24,5 @@ func UniqueWord(words []string) []string {
 }
 
 func main() {
-	fmt.Println(UniqueWord([]string{"cat", "cat", "dog", "cat", "tree"}))
+	fmt.Println(uniqueWord([]string{"cat", "cat", "dog", "cat", "tree"}))
 }

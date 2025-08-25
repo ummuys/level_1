@@ -6,7 +6,7 @@ import (
 )
 
 // Если нужно будет работать с большим количеством типов данных, то лучше перейти на reflect.TypeOf
-func TypeOfVar(wg *sync.WaitGroup, ch <-chan any) {
+func typeOfVar(wg *sync.WaitGroup, ch <-chan any) {
 	defer wg.Done()
 	for v := range ch {
 		switch val := v.(type) {
@@ -36,7 +36,7 @@ func main() {
 	wg := sync.WaitGroup{}
 
 	wg.Add(1)
-	go TypeOfVar(&wg, mainCh)
+	go typeOfVar(&wg, mainCh)
 
 	val := []any{1, "go", false, chInt, chStr, chBool}
 	for _, v := range val {

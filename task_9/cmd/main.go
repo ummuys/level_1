@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func WriteData(wg *sync.WaitGroup, arr []int, in chan<- int) {
+func writeData(wg *sync.WaitGroup, arr []int, in chan<- int) {
 	defer wg.Done()
 
 	for _, num := range arr {
@@ -16,7 +16,7 @@ func WriteData(wg *sync.WaitGroup, arr []int, in chan<- int) {
 	close(in)
 }
 
-func ReadData(wg *sync.WaitGroup, in <-chan int, out chan<- int) {
+func readData(wg *sync.WaitGroup, in <-chan int, out chan<- int) {
 	defer wg.Done()
 
 	for data := range in {
@@ -35,10 +35,10 @@ func main() {
 	}
 
 	wg.Add(1)
-	go WriteData(&wg, arr, in)
+	go writeData(&wg, arr, in)
 
 	wg.Add(1)
-	go ReadData(&wg, in, out)
+	go readData(&wg, in, out)
 
 	for data := range out {
 		fmt.Println(data)
